@@ -1,8 +1,12 @@
-
 package gui;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.util.logging.*;
+import javax.swing.JOptionPane;
+import model.MySQL;
+import model.SetupDb;
+import java.sql.ResultSet;
+
 /**
  *
  * @author Avishka Chamod
@@ -16,25 +20,30 @@ public class LogIn extends javax.swing.JFrame {
         initComponents();
         jPanel4.setVisible(false);
         setupLogger();
+        setupDatabase();
     }
-    
+
     private final static Logger logger = Logger.getLogger(LogIn.class.getName());
-    
-    private void setupLogger(){
+
+    private void setupLogger() {
         try {
-            
-            Handler fileHandler = new FileHandler("Logfiles/login.log" , true);
+
+            Handler fileHandler = new FileHandler("Logfiles/login.log", true);
             fileHandler.setFormatter(new SimpleFormatter());
             logger.addHandler(fileHandler);
             logger.log(Level.INFO, "Log In Setup Success");
-            
+
         } catch (Exception e) {
             e.printStackTrace();
-            logger.severe("LogIn Logger Failed " +e);
+            logger.severe("LogIn Logger Failed " + e);
         }
     }
 
-   
+    private void setupDatabase() {
+        String status = new SetupDb().initializeDb();
+        jLabel11.setText(status);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -61,6 +70,8 @@ public class LogIn extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Log In");
@@ -104,6 +115,11 @@ public class LogIn extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("Log In");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         jButton2.setText("Admin Log");
@@ -128,9 +144,9 @@ public class LogIn extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addComponent(jLabel5)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jButton2)
-                .addGap(18, 18, 18))
+                .addContainerGap(162, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -155,11 +171,6 @@ public class LogIn extends javax.swing.JFrame {
         );
 
         jPasswordField2.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
-        jPasswordField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField2ActionPerformed(evt);
-            }
-        });
 
         jLabel9.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         jLabel9.setText("Software Key has Mentioned in the Doc.");
@@ -280,6 +291,14 @@ public class LogIn extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+        jLabel10.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel10.setText("Setup Program : ");
+
+        jLabel11.setFont(new java.awt.Font("Yu Gothic UI", 0, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel11.setText("...");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -289,10 +308,17 @@ public class LogIn extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 166, Short.MAX_VALUE))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(15, 15, 15))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 166, Short.MAX_VALUE))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(15, 15, 15))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel11)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(162, 162, 162)
@@ -307,7 +333,11 @@ public class LogIn extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 78, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11))
+                .addGap(14, 14, 14))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(88, 88, 88)
@@ -330,11 +360,33 @@ public class LogIn extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField2ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        int key = Integer.parseInt(String.valueOf(jPasswordField2.getPassword()));
+        int softwareKey = new SetupDb().softwareKey;
+
+        if (key == softwareKey) {
+            new AdminPanel().setVisible(true);
+            this.dispose();
+
+        } else {
+
+            try {
+                String _key = String.valueOf(key);
+                ResultSet search = MySQL.exeSearch("SELECT * FROM `admin` WHERE `keys` = '" + _key + "'");
+
+                if (search.next()) {
+                    new AdminPanel().setVisible(true);
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Invalid Key or Software Key !", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.severe("Failed to Retrive Software Keys");
+            }
+
+        }
 
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -358,15 +410,50 @@ public class LogIn extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      jPanel3.setVisible(false);
-      jPanel4.setVisible(true);
+        jPanel3.setVisible(false);
+        jPanel4.setVisible(true);
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String nic = jTextField1.getText();
+        String password = String.valueOf(jPasswordField1.getPassword());
+
+    
+            if (nic.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter Your NIC !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (password.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter Your Password !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+                try {
+
+                    ResultSet search = MySQL.exeSearch("SELECT `name` FROM `librarian` WHERE `nic` = '" + nic + "' AND `password` = '" + password + "'");
+
+                    if (search.next()) {
+
+                        String name = search.getString("name").toString();
+                        new Dashboard(name).setVisible(true);
+                        this.dispose();
+
+                        search.close();
+
+                    } else {
+                        search.close();
+                        JOptionPane.showMessageDialog(this, "Invalid NIC or Password !", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    logger.severe("Failed to load Librarian Data from Database");
+                }
+            }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         FlatMacLightLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -382,6 +469,8 @@ public class LogIn extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
