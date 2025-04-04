@@ -426,12 +426,13 @@ public class LogIn extends javax.swing.JFrame {
             } else {
                 try {
 
-                    ResultSet search = MySQL.exeSearch("SELECT `name` FROM `librarian` WHERE `nic` = '" + nic + "' AND `password` = '" + password + "'");
+                    ResultSet search = MySQL.exeSearch("SELECT `nic`,`name` FROM `librarian` WHERE `nic` = '" + nic + "' AND `password` = '" + password + "'");
 
                     if (search.next()) {
 
                         String name = search.getString("name").toString();
-                        new Dashboard(name).setVisible(true);
+                        int _nic = search.getInt("nic");
+                        new Dashboard(name , _nic ).setVisible(true);
                         this.dispose();
 
                         search.close();

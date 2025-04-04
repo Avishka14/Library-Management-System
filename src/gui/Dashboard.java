@@ -12,17 +12,19 @@ import javax.swing.SwingUtilities;
 public class Dashboard extends javax.swing.JFrame {
     
     static String name;
+    static int nic;
     
-    public Dashboard(String name) {
+    public Dashboard(String name , int nic) {
         initComponents();
         this.name = name;
+        this.nic = nic;
         jLabel3.setText(this.name);
-        setupDashboard();
+        setupDashboard();       
     }
     
     private void setupDashboard(){
        jPanel4.removeAll();
-       LibrarySection lc = new LibrarySection();
+       LibrarySection lc = new LibrarySection(this.nic);
        jPanel4.add(lc , BorderLayout.CENTER);
        SwingUtilities.updateComponentTreeUI(jPanel4);
     }
@@ -228,7 +230,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
        jPanel4.removeAll();
-       LibrarySection lc = new LibrarySection();
+       LibrarySection lc = new LibrarySection(this.nic);
        jPanel4.add(lc , BorderLayout.CENTER);
        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton2ActionPerformed

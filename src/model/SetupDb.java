@@ -16,16 +16,26 @@ public class SetupDb {
 
   
 
-    static double StuRegFee = 150.00;
-    static double EmpRegFee = 250.00;
-    static double lateReturnFee = 50.00;
-    static String StuReg = "Student-Reg-Fee";
-    static String EmpReg = "Emp-Reg-Fee";
-    static String lateRe = "Late-Return-Fee";
-    static String bookAvailableTrue = "Available";
-    static String bookAvailableFalse = "NotAvailable";
-    static String MemberStatusTrue = "Active";
-    static String MemberStatusFalse = "Deactive";
+    private static double StuRegFee = 150.00;
+    private static double EmpRegFee = 250.00;
+    private static double lateReturnFee = 50.00;
+ 
+    final static String StuReg = "Student-Reg-Fee";
+    final static String EmpReg = "Emp-Reg-Fee";
+    final static String lateRe = "Late-Return-Fee";
+    final static String bookAvailableTrue = "Available";
+    final static String bookAvailableFalse = "NotAvailable";
+    final static String MemberStatusTrue = "Active";
+    final static String MemberStatusFalse = "Deactive";
+    final static String returnTrue = "Returned";
+    final static String returnFalse = "NotReturned";
+  
+    final static int bookAvaTrueId = 1;
+    final static int bookAvaFalseId = 2;
+    final static int MemberStatTrueId = 1;
+    final static int MemberStatFalseId = 2;
+    final static int returnTrueId = 1;
+    final static int returnFalseId = 2;
     
     public Integer softwareKey = 0000;
 
@@ -129,14 +139,14 @@ public class SetupDb {
             if(list.contains(bookAvailableTrue)){
                  status = "Book Status True Available";
             }else{
-                MySQL.exeUpdate("INSERT INTO `bookavailability` (`status`) VALUES ('"+bookAvailableTrue+"')");
+                MySQL.exeUpdate("INSERT INTO `bookavailability` (`id`,`status`) VALUES ('"+bookAvaTrueId+"','"+bookAvailableTrue+"')");
                 status = "Book Status True Added Success";
             }
             
             if(list.contains(bookAvailableFalse)){
                  status = "Book Status False Available";
             }else{
-                MySQL.exeUpdate("INSERT INTO `bookavailability` (`status`) VALUES ('"+bookAvailableFalse+"')");
+                MySQL.exeUpdate("INSERT INTO `bookavailability` (`id`,`status`) VALUES ('"+bookAvaFalseId+"','"+bookAvailableFalse+"')");
                 status = "Book Status False Added Success";
             }
             
@@ -161,14 +171,14 @@ public class SetupDb {
             if(list.contains(MemberStatusTrue)){
                   status = "Member Status True Available";
             }else{
-                MySQL.exeUpdate("INSERT INTO `memberstatus` (`status`) VALUES ('"+MemberStatusTrue+"')");
+                MySQL.exeUpdate("INSERT INTO `memberstatus` (`id`,`status`) VALUES ('"+MemberStatTrueId+"','"+MemberStatusTrue+"')");
                 status = "Member Status True Added Success";
             }
             
             if(list.contains(MemberStatusFalse)){
                   status = "Member Status False Available";
             }else{
-                MySQL.exeUpdate("INSERT INTO `memberstatus` (`status`) VALUES ('"+MemberStatusFalse+"')");
+                MySQL.exeUpdate("INSERT INTO `memberstatus` (`id`,`status`) VALUES ('"+MemberStatFalseId+"','"+MemberStatusFalse+"')");
                 status = "Member Status False Added Success";
             }
             
@@ -179,6 +189,39 @@ public class SetupDb {
          e.printStackTrace();
          logger.severe("Member Status Adding Failed " + e);
         }
+        
+        try {
+            
+            ResultSet search = MySQL.exeSearch("SELECT * FROM `return`");
+            ArrayList<String> list = new ArrayList<>();
+            
+            while(search.next()){
+                list.add(search.getString("status"));
+            }
+            
+             if(list.contains(returnTrue)){
+                  status = "Book Return True Available";
+            }else{
+                MySQL.exeUpdate("INSERT INTO `return` (`id`,`status`) VALUES ('"+returnTrueId+"','"+returnTrue+"')");
+                status = "Book Return True Added Success";
+            }
+            
+            if(list.contains(returnFalse)){
+                  status = "Book Return False Available";
+            }else{
+                MySQL.exeUpdate("INSERT INTO `return` (`id`,`status`) VALUES ('"+returnFalseId+"','"+returnFalse+"')");
+                status = "Book Return False Added Success";
+            }
+            
+            status = "Book Return Adding Success";
+            search.close();
+            
+          
+        } catch (Exception e) {
+         e.printStackTrace();
+         logger.severe("Failed to Add Book Return Data" +e);
+        }
+        
         
         status = "DataBase Initialize Success - Ready to Use";
         
