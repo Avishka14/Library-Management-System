@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -127,7 +128,65 @@ public class LibrarySection extends javax.swing.JPanel {
         jComboBox3.setSelectedItem("Select");
         jButton7.setEnabled(true);
     }
-
+    
+    private void clearSearchTable(){
+        
+        jTextField6.setText("");
+        ((DefaultTableModel) jTable1.getModel()).setRowCount(0);
+        ((DefaultTableModel) jTable2.getModel()).setRowCount(0);
+        ((DefaultTableModel) jTable5.getModel()).setRowCount(0);
+        ((DefaultTableModel) jTable3.getModel()).setRowCount(0);
+        
+    }
+    
+    private void loadAllDataTable(){
+        
+        String sortBy = jComboBox4.getSelectedItem().toString();
+        
+        String query = "SELECT * FROM `booklibrary` INNER JOIN `bookavailability` ON `bookavailability`.`id` = `booklibrary`.`bookavailability_id` ";
+        
+        
+        if(sortBy.equals("Name A to Z")){
+            query += "ORDER BY `booklibrary`.`name` ASC";
+        }else if(sortBy.equals("Name Z to A")){
+            query += "ORDER BY `booklibrary`.`name` DESC";
+        }else if(sortBy.equals("Date Added(Newest First)")){
+            query += "ORDER BY `booklibrary`.`date_added` DESC";
+        }else if(sortBy.equals("Date Added(Oldest First)")){
+            query += "ORDER BY `booklibrary`.`date_added` ASC";
+        }else if(sortBy.equals("Available")){
+            query += "ORDER BY `booklibrary`.`bookavailability_id` ASC";
+        }else if(sortBy.equals("NotAvailable")){
+             query += "ORDER BY `booklibrary`.`bookavailability_id` DESC";
+        }
+        
+        try {
+            
+            ResultSet search = MySQL.exeSearch(query);
+            DefaultTableModel model = (DefaultTableModel)jTable4.getModel();
+            model.setRowCount(0);
+            
+            while(search.next()){
+                Vector<String> vector = new Vector<>();
+                vector.add(search.getString("booklibrary.id"));
+                vector.add(search.getString("booklibrary.name"));
+                vector.add(search.getString("booklibrary.date_added"));
+                vector.add(search.getString("booklibrary.Librarian_nic"));
+                vector.add(search.getString("bookavailability.status"));
+                model.addRow(vector);
+            }
+            
+            jTable4.setModel(model);
+            search.close();
+            
+        } catch (Exception e) {
+        e.printStackTrace();
+        logger.severe("Failed to Load All Book Data Table" +e);
+        }
+        
+    }
+    
+ 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -167,6 +226,7 @@ public class LibrarySection extends javax.swing.JPanel {
         jButton8 = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         jButton11 = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -179,8 +239,12 @@ public class LibrarySection extends javax.swing.JPanel {
         jTable2 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTable3 = new javax.swing.JTable();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTable5 = new javax.swing.JTable();
         jLabel15 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
         jLabel16 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox<>();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTable4 = new javax.swing.JTable();
@@ -498,8 +562,14 @@ public class LibrarySection extends javax.swing.JPanel {
                         .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(jButton8, javax.swing.GroupLayout.Alignment.TRAILING))
                     .addComponent(jButton11))
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jLabel13.setForeground(new java.awt.Color(0, 153, 255));
@@ -511,10 +581,20 @@ public class LibrarySection extends javax.swing.JPanel {
 
         jTextField6.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         jTextField6.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField6KeyReleased(evt);
+            }
+        });
 
         jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/search-icon.png"))); // NOI18N
 
         jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clear-icon.png"))); // NOI18N
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
 
         jTable1.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -566,6 +646,25 @@ public class LibrarySection extends javax.swing.JPanel {
 
             },
             new String [] {
+                "Date", "Member ID", "Librarian NIC", "Return Status"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(jTable3);
+
+        jTable5.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
                 "Availability"
             }
         ) {
@@ -577,80 +676,50 @@ public class LibrarySection extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane3.setViewportView(jTable3);
+        jScrollPane5.setViewportView(jTable5);
 
-        jLabel15.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(0, 153, 255));
-        jLabel15.setText("All Books");
-
-        jLabel16.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel16.setText("Sort By");
-
-        jComboBox4.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jTable4.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Book ID", "Name", "Book Category"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jTable4.getTableHeader().setReorderingAllowed(false);
-        jScrollPane4.setViewportView(jTable4);
+        jLabel15.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel15.setText("History");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addGap(6, 6, 6)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel14)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel14)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(6, 6, 6)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(jButton9)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jButton10))
-                                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 795, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addComponent(jLabel15)
-                                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 795, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(jLabel13)))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(32, 32, 32)
-                        .addComponent(jLabel16)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                                        .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton9)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton10))
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 795, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))))
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addComponent(jLabel13))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(17, 17, 17)
                 .addComponent(jLabel13)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel14)
@@ -664,18 +733,84 @@ public class LibrarySection extends javax.swing.JPanel {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9))
         );
+
+        jTabbedPane1.addTab("Info", jPanel3);
+
+        jLabel16.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(0, 153, 255));
+        jLabel16.setText("All Available Books");
+
+        jLabel18.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        jLabel18.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel18.setText("Sort By");
+
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Name A to Z", "Name Z to A", "Date Added(Newest First)", "Date Added(Oldest First)", "Available", "NotAvailable" }));
+        jComboBox4.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox4ItemStateChanged(evt);
+            }
+        });
+
+        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Book ID", "Name", "Date Added", "Librarian NIC", "Availability"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable4.getTableHeader().setReorderingAllowed(false);
+        jScrollPane4.setViewportView(jTable4);
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel16))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel18)
+                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("All Data", jPanel4);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -687,8 +822,8 @@ public class LibrarySection extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -697,7 +832,7 @@ public class LibrarySection extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -754,7 +889,16 @@ public class LibrarySection extends javax.swing.JPanel {
 
                     MySQL.exeUpdate("INSERT INTO `booklibrary` (`id`,`name`,`author`,`date_added`,`bookcat_id`,`Librarian_nic`,`bookavailability_id`)"
                             + " VALUES ('" + bookId + "','" + bookName + "','" + author + "','" + today + "','" + bookCatid + "', '" + LibrarianNic + "', '" + bookAvailableId + "')");
-                    clearFields();
+                    
+                  int res = JOptionPane.showConfirmDialog(this, "Regsitration Success ! Do You Want to Clear Fields ?", "Success",JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+                    
+                  if(res == JOptionPane.YES_OPTION){
+                       clearFields();
+                  }else{
+                     
+                  }
+                  
+                  
 
                 }
 
@@ -1042,6 +1186,118 @@ public class LibrarySection extends javax.swing.JPanel {
         
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
+      
+        String ref = jTextField6.getText();
+        
+        try {
+            
+           ResultSet search =  MySQL.exeSearch("SELECT * FROM `booklibrary` INNER JOIN `bookcat` ON `bookcat`.`id` = `booklibrary`.`bookcat_id` "
+                   + " WHERE `booklibrary`.`id` = '"+ref+"' OR    `booklibrary`.`name` LIKE '%"+ref+"%' ");
+           DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+           model.setRowCount(0);
+           String bookid = "";
+           int bookAvailability = 0;
+         
+            if(search.next()){
+           
+               bookid =  search.getString("booklibrary.id");
+               bookAvailability = search.getInt("booklibrary.bookavailability_id");
+               
+               Vector<String> vec = new Vector();
+               vec.add(bookid);
+               vec.add(search.getString("booklibrary.name"));
+               vec.add(search.getString("booklibrary.author"));               
+               vec.add(search.getString("bookcat.catname"));
+               vec.add(search.getString("booklibrary.date_added"));
+               vec.add(search.getString("booklibrary.Librarian_nic"));              
+               model.addRow(vec);              
+           }
+           
+           jTable1.setModel(model);
+           
+           ResultSet locationSearch = MySQL.exeSearch("SELECT * FROM `booklocation` INNER JOIN `section` ON `section`.`id` = `booklocation`.`section_id` "
+                   + "INNER JOIN `cupboard` ON `cupboard`.`id` = `booklocation`.`cupboard_id` WHERE `booklocation`.`booklibrary_id` = '"+bookid+"' ");
+          DefaultTableModel modelL = (DefaultTableModel) jTable2.getModel();
+          modelL.setRowCount(0);
+     
+           if(locationSearch.next()){
+             
+               Vector<String> vector = new Vector<>();
+               vector.add(locationSearch.getString("section.name"));
+               vector.add(locationSearch.getString("cupboard.name"));
+               modelL.addRow(vector);
+           }
+           
+           jTable2.setModel(modelL);
+           
+           if(bookAvailability == 1){
+              DefaultTableModel modelAvailable = (DefaultTableModel) jTable5.getModel();
+              modelAvailable.setRowCount(0);
+              Vector v =  new Vector<>();
+              v.add("Available");
+              modelAvailable.addRow(v);
+              jTable5.setModel(modelAvailable);
+         
+           }else if (bookAvailability == 2){
+              DefaultTableModel modelAvailable = (DefaultTableModel) jTable5.getModel();
+              modelAvailable.setRowCount(0);
+              Vector v =  new Vector<>();
+              v.add("NotAvailable");
+              modelAvailable.addRow(v);
+              jTable5.setModel(modelAvailable);
+         
+           }else{
+              DefaultTableModel modelAvailable = (DefaultTableModel) jTable5.getModel();
+              modelAvailable.setRowCount(0);
+           }
+           
+        
+           locationSearch.close();
+           
+           ResultSet resultSet = MySQL.exeSearch("SELECT * FROM  `bookreserve` INNER JOIN `return` ON `return`.`id` = `bookreserve`.`return_id` "
+                   + " WHERE `bookreserve`.`booklibrary_id` = '"+bookid+"'  ");
+            
+              DefaultTableModel modelHistory = (DefaultTableModel) jTable3.getModel();
+              modelHistory.setRowCount(0);
+           
+           while(resultSet.next()){
+               
+               Vector<String> vector = new Vector<>();
+               vector.add(resultSet.getString("bookreserve.date"));
+               vector.add(resultSet.getString("bookreserve.member_id"));
+               vector.add(resultSet.getString("bookreserve.Librarian_nic"));
+               vector.add(resultSet.getString("return.status"));
+               modelHistory.addRow(vector);
+           }
+           
+           jTable3.setModel(modelHistory);
+           
+           search.close();
+           resultSet.close();
+           
+        } catch (Exception e) {
+         e.printStackTrace();
+         logger.severe("Finding Book Information Failed " +e);
+        
+        }
+        
+        
+    }//GEN-LAST:event_jTextField6KeyReleased
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+          clearSearchTable();
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+       loadAllDataTable();
+        
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void jComboBox4ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox4ItemStateChanged
+       loadAllDataTable();
+    }//GEN-LAST:event_jComboBox4ItemStateChanged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
@@ -1069,6 +1325,7 @@ public class LibrarySection extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1080,16 +1337,20 @@ public class LibrarySection extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
+    private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
