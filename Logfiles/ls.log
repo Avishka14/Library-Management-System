@@ -66,3 +66,35 @@ Apr 05, 2025 8:48:34 PM gui.LibrarySection loadAllDataTable
 SEVERE: Failed to Load All Book Data Tablejava.sql.SQLSyntaxErrorException: Unknown column 'booklibrary.date' in 'order clause'
 Apr 05, 2025 8:49:47 PM gui.LibrarySection setupLogger
 INFO: Library Section Setup Success
+Apr 06, 2025 6:16:01 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 6:21:28 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 6:22:34 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 6:24:48 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 6:41:26 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 6:56:01 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 6:56:34 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 6:57:20 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 6:59:32 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 7:09:59 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 7:11:04 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 7:16:40 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 7:21:11 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 7:22:34 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 7:23:18 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
+Apr 06, 2025 7:23:42 PM gui.LibrarySection setupLogger
+INFO: Library Section Setup Success
