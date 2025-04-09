@@ -94,7 +94,7 @@ public class ActivitySection extends javax.swing.JPanel {
             jLabel15.setText(totalReturned.toString());
             searchRes.close();
 
-            ResultSet searchResToday = MySQL.exeSearch("SELECT * FROM `bookreserve` WHERE `date` = '" + today + "' ");
+            ResultSet searchResToday = MySQL.exeSearch("SELECT * FROM `bookreserve` WHERE `reserve_date` = '" + today + "' ");
             Integer todayReservations = 0;
             Integer todayReturned = 0;
 
@@ -170,8 +170,8 @@ public class ActivitySection extends javax.swing.JPanel {
 
         try {
 
-            ResultSet search = MySQL.exeSearch("SELECT MONTHNAME(`date`) AS `month` , COUNT(*) AS `count` FROM `bookreserve` WHERE YEAR(`date`) = '"+year+"' "
-                    + "GROUP BY MONTH(`date`) , MONTHNAME(`date`) ORDER BY MONTH(`date`)");
+            ResultSet search = MySQL.exeSearch("SELECT MONTHNAME(`reserve_date`) AS `month` , COUNT(*) AS `count` FROM `bookreserve` WHERE YEAR(`reserve_date`) = '"+year+"' "
+                    + "GROUP BY MONTH(`reserve_date`) , MONTHNAME(`reserve_date`) ORDER BY MONTH(`reserve_date`)");
 
             while(search.next()){              
                 dataMap.put(search.getString("month"), search.getInt("count"));           

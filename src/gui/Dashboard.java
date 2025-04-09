@@ -244,7 +244,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
        jPanel4.removeAll();
-       MemberSection ms = new MemberSection();
+       MemberSection ms = new MemberSection(this.nic);
        jPanel4.add(ms , BorderLayout.CENTER);
        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton4ActionPerformed

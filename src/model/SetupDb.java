@@ -30,6 +30,9 @@ public class SetupDb {
     final static String returnTrue = "Returned";
     final static String returnFalse = "NotReturned";
   
+    final static int StuRegFeeId = 1;
+    final static int EmpRegFeeId = 2;
+    final static int lateReturnFeeId = 3;
     final static int bookAvaTrueId = 1;
     final static int bookAvaFalseId = 2;
     final static int MemberStatTrueId = 1;
@@ -102,22 +105,22 @@ public class SetupDb {
             if(list.contains("Student-Reg-Fee")){
                 status = "Student Registration Fee Available";
             }else{
-               MySQL.exeUpdate("INSERT INTO `libraryfees` (`note`,`amount`) VALUES ('"+StuReg+"','"+StuRegFee+"')");
+               MySQL.exeUpdate("INSERT INTO `libraryfees` (`id`,`note`,`amount`) VALUES ('"+StuRegFeeId+"','"+StuReg+"','"+StuRegFee+"')");
                status = "Student Registration Fee Added Success";
             }
             
             if(list.contains("Emp-Reg-Fee")){
                 status = "Employee Registration Fee Available";
             }else{
-                MySQL.exeUpdate("INSERT INTO `libraryfees` (`note`,`amount`) VALUES ('"+EmpReg+"','"+EmpRegFee+"')");
+                MySQL.exeUpdate("INSERT INTO `libraryfees` (`id`,`note`,`amount`) VALUES ('"+EmpRegFeeId+"','"+EmpReg+"','"+EmpRegFee+"')");
                 status = "Employee Registration Fee Added Success";
             }
             
             if(list.contains("Late-Return-Fee")){
                 status = "Late Return Fee Available";
             }else{
-                MySQL.exeUpdate("INSERT INTO `libraryfees` (`note`,`amount`) VALUES ('"+lateRe+"','"+lateReturnFee+"')");
-                status = "Late Return Fee Added Success ";
+                MySQL.exeUpdate("INSERT INTO `libraryfees` (`id`,`note`,`amount`) VALUES ('"+lateReturnFeeId+"','"+lateRe+"','"+lateReturnFee+"')");
+                status = "Late Return Fee Added Success "; 
             }
             
             status = "Library Fee's Added Success";
