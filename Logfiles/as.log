@@ -1,0 +1,52 @@
+Apr 06, 2025 6:16:03 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 6:21:30 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 6:22:35 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 6:24:49 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 6:41:27 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 6:56:03 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 6:56:35 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 6:57:21 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 6:59:34 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 7:10:01 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 7:11:06 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 7:16:41 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 7:21:12 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 7:22:36 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 7:23:19 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 06, 2025 7:23:43 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 07, 2025 9:38:51 AM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 07, 2025 4:11:33 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 08, 2025 4:56:38 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 08, 2025 4:56:38 PM gui.ActivitySection loadLibraryData
+SEVERE: Failed to Load Library Datajava.sql.SQLSyntaxErrorException: Unknown column 'date' in 'where clause'
+Apr 08, 2025 4:56:38 PM gui.ActivitySection loadLibraryDataChart
+SEVERE: Failed to Load Chart for Library Datajava.sql.SQLSyntaxErrorException: Unknown column 'date' in 'field list'
+Apr 08, 2025 4:59:48 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 09, 2025 6:10:57 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 09, 2025 6:10:59 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 09, 2025 6:11:08 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 
+Apr 09, 2025 6:11:41 PM gui.ActivitySection setupLogger
+INFO: Activity Section Logging Success 

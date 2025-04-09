@@ -1,0 +1,138 @@
+Apr 07, 2025 9:56:47 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 9:57:48 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 10:00:10 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 10:01:17 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 10:02:07 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 10:10:08 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 10:16:41 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:06:48 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:07:53 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:08:20 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:09:46 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:10:24 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:11:34 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:11:52 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:13:54 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:17:16 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:17:59 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:19:07 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:29:44 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:54:22 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:57:51 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 4:59:48 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 5:09:50 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 5:11:59 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 5:13:11 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 5:14:48 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 5:15:49 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 07, 2025 5:16:55 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 9:51:27 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 9:58:37 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 9:58:50 AM gui.MemberSection jButton3ActionPerformed
+SEVERE: Member Data Update Failedjava.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', `mobile` = '0766066930' OR `email` = 'asas@gmail.com'' at line 1
+Apr 08, 2025 10:01:19 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 10:01:31 AM gui.MemberSection jButton3ActionPerformed
+SEVERE: Member Data Update Failedjava.sql.SQLSyntaxErrorException: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', `mobile` = '0766066930' OR `email` = 'asas@gmail.com'' at line 1
+Apr 08, 2025 10:04:11 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 10:05:39 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 10:12:10 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 10:16:01 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 10:28:10 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 10:31:08 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 10:32:24 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 10:40:20 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 10:41:21 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 4:46:34 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 4:47:52 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 4:49:25 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 4:50:17 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 4:51:19 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 4:52:40 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 5:13:14 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 5:13:31 PM gui.MemberSection jButton7ActionPerformed
+SEVERE: Canont Find member Info using Mobile or IDjava.sql.SQLSyntaxErrorException: Unknown column 'bookreserve.resrve_id' in 'on clause'
+Apr 08, 2025 5:13:58 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 5:14:01 PM gui.MemberSection jButton7ActionPerformed
+SEVERE: Canont Find member Info using Mobile or IDjava.sql.SQLSyntaxErrorException: Unknown column 'bookreserve.reserve_id' in 'on clause'
+Apr 08, 2025 5:14:35 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 5:14:38 PM gui.MemberSection jButton7ActionPerformed
+SEVERE: Canont Find member Info using Mobile or IDjava.sql.SQLException: Column 'return.Librarian_nic' not found.
+Apr 08, 2025 5:14:40 PM gui.MemberSection jButton7ActionPerformed
+SEVERE: Canont Find member Info using Mobile or IDjava.sql.SQLException: Column 'return.Librarian_nic' not found.
+Apr 08, 2025 5:14:40 PM gui.MemberSection jButton7ActionPerformed
+SEVERE: Canont Find member Info using Mobile or IDjava.sql.SQLException: Column 'return.Librarian_nic' not found.
+Apr 08, 2025 5:14:41 PM gui.MemberSection jButton7ActionPerformed
+SEVERE: Canont Find member Info using Mobile or IDjava.sql.SQLException: Column 'return.Librarian_nic' not found.
+Apr 08, 2025 5:16:22 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 5:18:21 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 5:19:09 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 5:36:39 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 08, 2025 5:38:52 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 09, 2025 11:30:26 AM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 09, 2025 12:24:38 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 09, 2025 12:31:53 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 09, 2025 5:52:30 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 09, 2025 5:53:02 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 09, 2025 6:02:53 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
+Apr 09, 2025 6:10:57 PM gui.MemberSection setupLogger
+INFO: Member Section Logger Setup Success
