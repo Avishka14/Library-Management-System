@@ -11,7 +11,7 @@ public class MySQL {
     
     public static void createConnection() throws Exception{
      Class.forName("com.mysql.cj.jdbc.Driver");
-     connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarym", "root", "8794"); //password and username
+     connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/librarym", "", ""); //password and username
     }
     
     public static ResultSet exeSearch(String query) throws Exception{

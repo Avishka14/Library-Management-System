@@ -1,5 +1,15 @@
-
 package gui;
+
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.*;
+import javax.swing.JOptionPane;
+import java.sql.ResultSet;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import model.MySQL;
 
 /**
  *
@@ -7,14 +17,49 @@ package gui;
  */
 public class Reservation extends javax.swing.JFrame {
 
-   
-    public Reservation() {
+    static int nic;
+
+    public Reservation(int NIC) {
         initComponents();
+        this.nic = NIC;
         jPanel4.setVisible(true);
         jPanel5.setVisible(false);
+        setupLogger();
     }
 
-  
+    private final static Logger logger = Logger.getLogger(Reservation.class.getName());
+
+    private void setupLogger() {
+        try {
+
+            Handler fileHandler = new FileHandler("Logfiles/reservation.log", true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            logger.addHandler(fileHandler);
+            logger.log(Level.INFO, "Reservation Setup Success");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.severe("Reservation Logger Failed " + e);
+        }
+    }
+    
+    private void clearFields(){
+        jTextField4.setText("");
+        jTextField5.setText("");
+        jTextField4.setEditable(true);
+        jTextField5.setEditable(true);
+        jTextField6.setEditable(true);
+        jLabel11.setText("...");
+        jLabel13.setText("...");
+        jLabel15.setText("...");
+        jLabel17.setText("...");
+        jLabel23.setText("...");
+        jLabel24.setText("...");
+        jLabel25.setText("...");
+        jLabel27.setText("...");
+        
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -34,6 +79,9 @@ public class Reservation extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
@@ -61,6 +109,9 @@ public class Reservation extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jButton9 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Reservation");
@@ -94,24 +145,25 @@ public class Reservation extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Member ID");
+        jLabel3.setText("Member ID or Mobile");
 
-        jTextField1.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        jTextField1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jTextField1.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Book ID");
 
-        jTextField2.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        jTextField2.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jTextField2.setForeground(new java.awt.Color(0, 0, 0));
 
         jLabel5.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Issued Date");
 
-        jTextField3.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        jTextField3.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
         jTextField3.setForeground(new java.awt.Color(0, 0, 0));
+        jTextField3.setPreferredSize(new java.awt.Dimension(85, 22));
 
         jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
@@ -121,6 +173,11 @@ public class Reservation extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 18)); // NOI18N
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
         jButton1.setText("ISSUE");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/email-icon.png"))); // NOI18N
 
@@ -132,6 +189,29 @@ public class Reservation extends javax.swing.JFrame {
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
+            }
+        });
+
+        jDateChooser1.setForeground(new java.awt.Color(0, 0, 0));
+        jDateChooser1.setFont(new java.awt.Font("Yu Gothic UI", 0, 18)); // NOI18N
+
+        jButton7.setBackground(new java.awt.Color(0, 102, 153));
+        jButton7.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(255, 255, 255));
+        jButton7.setText("GET");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setBackground(new java.awt.Color(0, 102, 204));
+        jButton8.setFont(new java.awt.Font("Yu Gothic UI Semibold", 0, 14)); // NOI18N
+        jButton8.setForeground(new java.awt.Color(255, 255, 255));
+        jButton8.setText("14+");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
             }
         });
 
@@ -147,31 +227,40 @@ public class Reservation extends javax.swing.JFrame {
                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addGap(91, 91, 91)
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addGap(64, 64, 64)
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel3)))
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addGap(20, 20, 20)
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jButton3)
-                                        .addComponent(jLabel2)))))
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(85, 85, 85)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGap(64, 64, 64)
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel3)))
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGap(20, 20, 20)
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jButton3)
+                                            .addComponent(jLabel2))))
+                                .addGap(102, 102, 102))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(91, 91, 91)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGap(53, 53, 53)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel6)
-                                    .addComponent(jLabel5))))))
-                .addGap(141, 141, 141))
+                                    .addComponent(jLabel5)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                .addGap(85, 85, 85)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(9, 9, 9))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,20 +272,24 @@ public class Reservation extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(53, 53, 53)
+                .addGap(16, 16, 16)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jDateChooser1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE))
+                .addGap(20, 20, 20)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addGap(21, 21, 21))
         );
@@ -219,7 +312,13 @@ public class Reservation extends javax.swing.JFrame {
 
         jLabel9.setText("Book ID");
 
+        jButton4.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         jButton4.setText("Check In");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jPanel6.setBackground(new java.awt.Color(102, 102, 102));
 
@@ -293,6 +392,11 @@ public class Reservation extends javax.swing.JFrame {
         jButton5.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         jButton5.setForeground(new java.awt.Color(255, 255, 255));
         jButton5.setText("Accept");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         jLabel23.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
         jLabel23.setForeground(new java.awt.Color(0, 51, 255));
@@ -306,6 +410,19 @@ public class Reservation extends javax.swing.JFrame {
         jLabel25.setForeground(new java.awt.Color(255, 0, 51));
         jLabel25.setText("...");
 
+        jLabel26.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        jLabel26.setText("Reservation ID :");
+
+        jLabel27.setFont(new java.awt.Font("Yu Gothic UI", 0, 14)); // NOI18N
+        jLabel27.setText("...");
+
+        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/clear-icon.png"))); // NOI18N
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -313,24 +430,30 @@ public class Reservation extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton6)
-                                    .addComponent(jLabel7)))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel8))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jButton6)
+                            .addComponent(jLabel7)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(0, 46, Short.MAX_VALUE)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton4)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 39, Short.MAX_VALUE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(jLabel26)
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel27, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addComponent(jButton4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton9)
+                                .addGap(19, 19, 19))))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel8)
+                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -372,7 +495,7 @@ public class Reservation extends javax.swing.JFrame {
                                     .addComponent(jLabel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jLabel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -429,9 +552,18 @@ public class Reservation extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(jButton4))
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jButton4)
+                                        .addGap(14, 14, 14))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                        .addComponent(jButton9)
+                                        .addGap(18, 18, 18)))
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel26)
+                                    .addComponent(jLabel27)))
                             .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                         .addComponent(jButton6)
                         .addGap(21, 21, 21))))
         );
@@ -471,17 +603,266 @@ public class Reservation extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       jPanel5.setVisible(true);
-       jPanel4.setVisible(false);
+        jPanel5.setVisible(true);
+        jPanel4.setVisible(false);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-       jPanel5.setVisible(false);
-       jPanel4.setVisible(true);
+        jPanel5.setVisible(false);
+        jPanel4.setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
-  
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        String ref = jTextField1.getText();
+        String bookID = jTextField2.getText();
+        String issuedDate = jTextField3.getText();
+        Date inputDateStr = jDateChooser1.getDate();
+        try {
+
+            if (ref.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter Member ID to Continue !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (bookID.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter Book ID to Continue !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (issuedDate.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Enter the Date Book Issuing Use Get Button to get Today !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (!issuedDate.matches("^(19|20)\\d{2}\\-(0[1-9]|1[0-2])\\-(0[1-9]|[12]\\d|3[01])$")) {
+                JOptionPane.showMessageDialog(this, "Invalid Date Format !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else if (inputDateStr == null) {
+                JOptionPane.showMessageDialog(this, "Please Select the Return Date !", "Warning", JOptionPane.WARNING_MESSAGE);
+            } else {
+
+                String inputFormat = "EEE MMM dd HH:mm:ss zzz yyyy";
+                String outputFormat = "yyyy-MM-dd";
+
+                SimpleDateFormat inputSdf = new SimpleDateFormat(inputFormat);
+                Date date = inputSdf.parse(inputDateStr.toString());
+
+                SimpleDateFormat outPutSdf = new SimpleDateFormat(outputFormat);
+                String returnDate = outPutSdf.format(date);
+
+                ResultSet search = model.MySQL.exeSearch("SELECT `memberstatus_id`,`id` FROM `member` "
+                        + " WHERE `id` = '" + ref + "' OR `mobile` = '" + ref + "'");
+
+                if (search.next()) {
+
+                    int memberStatus = search.getInt("memberstatus_id");
+                    String memberId = search.getString("id");
+                    if (memberStatus == 1) {
+                        search.close();
+
+                        if (!(issuedDate.equals(LocalDate.now().toString()))) {
+                            JOptionPane.showMessageDialog(this, "Please use GET button to get Correct date !", "Warning", JOptionPane.WARNING_MESSAGE);
+                        } else {
+
+                            Integer insert = MySQL.exeUpdate("INSERT INTO `bookreserve` (`reserve_date`,`return_date`,"
+                                    + "`booklibrary_id`,`member_id`,`Librarian_nic`,`return_id`) VALUES ('" + issuedDate + "','" + returnDate + "',"
+                                    + "'" + bookID + "','" + memberId + "','" + nic + "','" + 2 + "')");
+
+                            if (insert == 1) {
+                                int op = JOptionPane.showConfirmDialog(this, "Book Issue Success Click Yes to Clear !", "Success", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+                                if (op == JOptionPane.YES_OPTION) {
+                                    jTextField1.setText("");
+                                    jTextField2.setText("");
+                                    jTextField3.setText("");
+                                    jDateChooser1.cleanup();
+                                }
+
+                            } else {
+                                JOptionPane.showMessageDialog(this, "Making Reservation Failed Unexpectedly !", "Warning", JOptionPane.WARNING_MESSAGE);
+                                logger.warning("Book issuing Failed Book id:" + bookID + " ");
+                            }
+                        }
+
+                    } else {
+                        search.close();
+                        JOptionPane.showMessageDialog(this, "Deactive Member Please Update Member Status !", "Warning", JOptionPane.WARNING_MESSAGE);
+                    }
+
+                } else {
+                    search.close();
+                    JOptionPane.showMessageDialog(this, "Invalid Member ID or Mobile  !", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.severe("Reservation Book Issue  Failed " + e);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+
+        String local = LocalDate.now().toString();
+        jTextField3.setText(local);
+
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+
+        String today = jTextField3.getText();
+
+        if (today.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter the Date Book Issuing Use Get Button to get Today !", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+
+            try {
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(sdf.parse(today));
+
+                calendar.add(Calendar.DAY_OF_MONTH, 14);
+
+                String newDateStr = sdf.format(calendar.getTime());
+                Date date = sdf.parse(newDateStr);
+                jDateChooser1.setDate(date);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.severe("14 Days Addittion Failed" + e);
+            }
+        }
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+        String id = jTextField4.getText();
+        String bookid = jTextField5.getText();
+
+        if (id.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter Member ID to Continue !", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else if (bookid.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Enter Book ID to Continue !", "Warning", JOptionPane.WARNING_MESSAGE);
+        } else {
+            try {
+
+                ResultSet search = MySQL.exeSearch("SELECT * FROM `bookreserve` INNER JOIN `booklibrary` ON"
+                        + " `booklibrary`.`id` = `bookreserve`.`booklibrary_id` WHERE"
+                        + " `bookreserve`.`member_id` = '" + id + "' AND `bookreserve`.`booklibrary_id` = '" + bookid + "'");
+
+                if (search.next()) {
+                    jLabel11.setText(search.getString("booklibrary.name"));
+                    jLabel13.setText(search.getString("bookreserve.reserve_date"));
+                    jLabel15.setText(search.getString("bookreserve.return_date"));
+                    jLabel27.setText(search.getString("bookreserve.id"));
+
+                    String today = LocalDate.now().toString();
+                    String returnDate = search.getString("bookreserve.return_date");
+
+                    if (today.equals(returnDate)) {
+                        jLabel17.setText("0");
+                        jLabel24.setText("0");
+                    } else {
+                        DateTimeFormatter dtm = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                        LocalDate localToday = LocalDate.parse(today, dtm);
+                        LocalDate localReturn = LocalDate.parse(returnDate, dtm);
+                        Long daysBetween = ChronoUnit.DAYS.between(localToday, localReturn);
+                        jLabel17.setText(daysBetween.toString());
+                        jLabel24.setText(daysBetween.toString());
+                    }
+
+                    Integer dues = Integer.parseInt(jLabel17.getText());
+                    Double feePerDue = model.SetupDb.getLateReturnFee();
+                    jLabel23.setText(feePerDue.toString());
+
+                    Integer positiveInt = Math.abs(dues);
+                    jLabel24.setText(positiveInt.toString());
+
+                    Double dueFee = 0.0;
+
+                    if (positiveInt > 0) {
+                        dueFee = feePerDue * positiveInt;
+                    }
+                    jLabel25.setText(dueFee.toString());
+                    
+                    jTextField5.setEditable(false);
+                    jTextField4.setEditable(false);
+
+                } else {
+                    search.close();
+                    JOptionPane.showMessageDialog(this, "Invalid Credentials !", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+
+                search.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                logger.severe("Failed to Retive Reservation Data" + e);
+            }
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+
+        double duefee = Double.parseDouble(jLabel25.getText());
+        String date = LocalDate.now().toString();
+        String memberid = jTextField4.getText();
+        String  id = jLabel27.getText();
+        if (duefee > 0.0) {
+
+            double paidAmount = Double.parseDouble(jTextField6.getText());
+
+            if (paidAmount == duefee) {
+                String note = "Late-Return-Fee";
+               
+                try {
+                    Integer update = MySQL.exeUpdate("INSERT INTO `fines` (`note`,`amount`,`paid_date`,`libraryfees_id`,`member_id`,`Librarian_nic`) "
+                            + "VALUES ('" + note + "','" + paidAmount + "','" + date + "','" + 3 + "','" + memberid + "','" + nic + "')");
+
+                    if (update == 1) {
+                        Integer i = MySQL.exeUpdate("UPDATE `bookreserve` SET `return_id` = '" + 1 + "' WHERE `id` = '" + id + "' ");
+
+                        if (i == 1) {
+                            JOptionPane.showMessageDialog(this, "Return Accept Success !", "Warning", JOptionPane.PLAIN_MESSAGE);
+                            clearFields();
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Failed to Update Book Reserve : Internal Error", "Warning", JOptionPane.WARNING_MESSAGE);
+                            logger.severe("Failed to Update Book Reserve");
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to Accept Book Retrn Fee : Internal Error", "Warning", JOptionPane.WARNING_MESSAGE);
+                        logger.severe("Failed to Accept Return Fee");
+                    }
+
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    logger.severe("Failed to Accept book Return" + ex);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Please Accept the exact Fee !", "Warning", JOptionPane.WARNING_MESSAGE);
+            }
+
+        } else {
+
+            try {
+                
+                Integer i = MySQL.exeUpdate("UPDATE `bookreserve` SET `return_id` = '" + 1 + "' WHERE `id` = '" + id + "' ");
+                if (i == 1) {
+                    JOptionPane.showMessageDialog(this, "Return Accept Success !", "Warning", JOptionPane.PLAIN_MESSAGE);
+                    clearFields();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Failed to Update Book Reserve : Internal Error", "Warning", JOptionPane.WARNING_MESSAGE);
+                    logger.severe("Failed to Update Book Reserve 0 Return Fee");
+                }
+
+            } catch (Exception e) {
+            }
+
+        }
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        clearFields();
+    }//GEN-LAST:event_jButton9ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -490,6 +871,10 @@ public class Reservation extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
+    private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -508,6 +893,8 @@ public class Reservation extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;

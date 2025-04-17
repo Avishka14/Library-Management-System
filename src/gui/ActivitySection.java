@@ -100,7 +100,7 @@ public class ActivitySection extends javax.swing.JPanel {
 
             while (searchResToday.next()) {
                 todayReservations++;
-                int id = searchRes.getInt("return_id");
+                int id = searchResToday.getInt("return_id");
                 if (id == 2) {
                     todayReturned++;
                 }

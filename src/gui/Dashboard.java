@@ -257,7 +257,7 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        new Reservation().setVisible(true);
+        new Reservation(nic).setVisible(true);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
