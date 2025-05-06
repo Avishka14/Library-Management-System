@@ -42,8 +42,8 @@ public class Reservation extends javax.swing.JFrame {
             logger.severe("Reservation Logger Failed " + e);
         }
     }
-    
-    private void clearFields(){
+
+    private void clearFields() {
         jTextField4.setText("");
         jTextField5.setText("");
         jTextField4.setEditable(true);
@@ -57,7 +57,7 @@ public class Reservation extends javax.swing.JFrame {
         jLabel24.setText("...");
         jLabel25.setText("...");
         jLabel27.setText("...");
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -761,27 +761,37 @@ public class Reservation extends javax.swing.JFrame {
                         DateTimeFormatter dtm = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                         LocalDate localToday = LocalDate.parse(today, dtm);
                         LocalDate localReturn = LocalDate.parse(returnDate, dtm);
-                        Long daysBetween = ChronoUnit.DAYS.between(localToday, localReturn);
-                        jLabel17.setText(daysBetween.toString());
-                        jLabel24.setText(daysBetween.toString());
+                        Long daysBetween = ChronoUnit.DAYS.between(localReturn, localToday);
+
+                        if (daysBetween < 0) {
+                            jLabel17.setText("0");
+                            jLabel24.setText("0");
+                        } else {
+                            jLabel17.setText(daysBetween.toString());
+                            jLabel24.setText(daysBetween.toString());
+                        }
+
                     }
 
                     Integer dues = Integer.parseInt(jLabel17.getText());
-                    Double feePerDue = model.SetupDb.getLateReturnFee();
-                    jLabel23.setText(feePerDue.toString());
 
-                    Integer positiveInt = Math.abs(dues);
-                    jLabel24.setText(positiveInt.toString());
+                        Double feePerDue = model.SetupDb.getLateReturnFee();
+                        jLabel23.setText(feePerDue.toString());
 
-                    Double dueFee = 0.0;
+                        Integer positiveInt = Math.abs(dues);
+                        jLabel24.setText(positiveInt.toString());
 
-                    if (positiveInt > 0) {
-                        dueFee = feePerDue * positiveInt;
-                    }
-                    jLabel25.setText(dueFee.toString());
-                    
-                    jTextField5.setEditable(false);
-                    jTextField4.setEditable(false);
+                        Double dueFee = 0.0;
+
+                        if (positiveInt > 0) {
+                            dueFee = feePerDue * positiveInt;
+                        }
+
+                        jLabel25.setText(dueFee.toString());
+
+                        jTextField5.setEditable(false);
+                        jTextField4.setEditable(false);
+                  
 
                 } else {
                     search.close();
@@ -802,14 +812,14 @@ public class Reservation extends javax.swing.JFrame {
         double duefee = Double.parseDouble(jLabel25.getText());
         String date = LocalDate.now().toString();
         String memberid = jTextField4.getText();
-        String  id = jLabel27.getText();
+        String id = jLabel27.getText();
         if (duefee > 0.0) {
 
             double paidAmount = Double.parseDouble(jTextField6.getText());
 
             if (paidAmount == duefee) {
                 String note = "Late-Return-Fee";
-               
+
                 try {
                     Integer update = MySQL.exeUpdate("INSERT INTO `fines` (`note`,`amount`,`paid_date`,`libraryfees_id`,`member_id`,`Librarian_nic`) "
                             + "VALUES ('" + note + "','" + paidAmount + "','" + date + "','" + 3 + "','" + memberid + "','" + nic + "')");
@@ -842,7 +852,7 @@ public class Reservation extends javax.swing.JFrame {
         } else {
 
             try {
-                
+
                 Integer i = MySQL.exeUpdate("UPDATE `bookreserve` SET `return_id` = '" + 1 + "' WHERE `id` = '" + id + "' ");
                 if (i == 1) {
                     JOptionPane.showMessageDialog(this, "Return Accept Success !", "Warning", JOptionPane.PLAIN_MESSAGE);
