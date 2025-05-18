@@ -1,17 +1,21 @@
-
 package gui;
 
 import java.awt.BorderLayout;
 import javax.swing.SwingUtilities;
 
-
 public class AdminPanel extends javax.swing.JFrame {
 
     public AdminPanel() {
         initComponents();
+        setupAdminPanel();
     }
 
- 
+    private void setupAdminPanel() {
+        jPanel4.removeAll();
+        jPanel4.add(new LibManageAdmin(), BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(jPanel4);
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -151,30 +155,27 @@ public class AdminPanel extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       jPanel4.removeAll();
-       jPanel4.add(new LibManageAdmin(), BorderLayout.CENTER);
-       SwingUtilities.updateComponentTreeUI(jPanel4);
+     setupAdminPanel();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       jPanel4.removeAll();
-       jPanel4.add(new MemAdmin(), BorderLayout.CENTER);
-       SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+        jPanel4.add(new MemAdmin(), BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-       jPanel4.removeAll();
-       jPanel4.add(new AcAdmin(), BorderLayout.CENTER);
-       SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+        jPanel4.add(new AcAdmin(), BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-       jPanel4.removeAll();
-       jPanel4.add(new FinAdmin(), BorderLayout.CENTER);
-       SwingUtilities.updateComponentTreeUI(jPanel4);
+        jPanel4.removeAll();
+        jPanel4.add(new FinAdmin(), BorderLayout.CENTER);
+        SwingUtilities.updateComponentTreeUI(jPanel4);
     }//GEN-LAST:event_jButton4ActionPerformed
 
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
