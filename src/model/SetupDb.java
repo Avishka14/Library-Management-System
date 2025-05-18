@@ -14,8 +14,6 @@ public class SetupDb {
         setupLogger();
     }
 
-  
-
     private static double StuRegFee = 150.00;
     private static double EmpRegFee = 250.00;
     private static double lateReturnFee = 50.00;
@@ -41,7 +39,8 @@ public class SetupDb {
     final static int returnFalseId = 2;
     
     public Integer softwareKey = 0000;
-
+    String status = "Wait for the Database Initialize Process ";
+    
     public Integer getSoftwareKey() {
         return softwareKey;
     }
@@ -87,11 +86,12 @@ public class SetupDb {
         } catch (Exception e) {
             e.printStackTrace();
             logger.severe("Database Setup Logger Failed" + e);
+                 
         }
     }
 
     public String initializeDb() {
-        String status = "Wait for the Database Initialize Process ";
+        
 
         try {
 
@@ -218,7 +218,8 @@ public class SetupDb {
             
             status = "Book Return Adding Success";
             search.close();
-            
+          
+            status = "DataBase Initialize Success - Ready to Use";
           
         } catch (Exception e) {
          e.printStackTrace();
@@ -226,7 +227,7 @@ public class SetupDb {
         }
         
         
-        status = "DataBase Initialize Success - Ready to Use";
+        
         
 
         return status;
